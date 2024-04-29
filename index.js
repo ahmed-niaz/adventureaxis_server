@@ -29,7 +29,7 @@ async function run() {
       .db("tourist_spot_db")
       .collection("tourist_spot");
 
-      const countryInfoCollection = client
+    const countryInfoCollection = client
       .db("tourist_spot_db")
       .collection("country_info");
 
@@ -41,16 +41,23 @@ async function run() {
       res.send(result);
     });
 
-    // create country information 
-    app.post('/countries',async(req,res)=>{
+    // create country information
+    app.post("/countries", async (req, res) => {
       const newCountryInfo = req.body;
       console.log(newCountryInfo);
       const result = await countryInfoCollection.insertOne(newCountryInfo);
-      res.send(result)
-    })
+      res.send(result);
+    });
+
     // read the data from the server
     app.get("/landmarks", async (req, res) => {
       const cursor = await touristSpotCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    app.get("/countries", async (req, res) => {
+      const cursor = await countryInfoCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
