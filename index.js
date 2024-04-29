@@ -82,7 +82,12 @@ async function run() {
       const result = await touristSpotCollection.findOne(query);
       res.send(result);
     });
-
+    app.get("/countries/:country_name", async (req, res) => {
+      const country_name = req.params.country_name;
+      const query = { country_name };
+      const result = await touristSpotCollection.find(query).toArray();
+      res.send(result);
+    });
     // delete user spots
     app.delete("/lists/:id", async (req, res) => {
       const id = req.params.id;
